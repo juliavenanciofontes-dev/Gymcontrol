@@ -1,5 +1,6 @@
 let bancoDeAlunos = []
 let numeroAluno = 0
+
     function cadastrarAluno(){
         const nomeAluno = document.getElementById("inpNomeAluno").value.trim()
         const cpfAluno = document.getElementById("inpCpf").value.trim()
@@ -23,5 +24,11 @@ let numeroAluno = 0
     }   
 }
 
-    
+let BancoDePagamentos = []
+let numeroPagamento = 0
+function cadastrarPagamento(){
+    const nomeAlunoPagamento = document.getElementById("nomePlan").value.trim()
+    const dataPagamento = document.getElementById("nomePlan").value.trim()
+    const nomeAlunoPagamento = document.getElementById("nomePlan").value.trim()
+}
 
