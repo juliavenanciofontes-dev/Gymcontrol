@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GymControl | Relatórios e Consultas</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo">
+            <img src="imagens/logo.png"
+                 alt="GymControl - Sistema de gerenciamento de academia">
+        </a>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="menu">
+
+            <a href="index.html" class="menu-link">
+                <img src="imagens/inicio.png" alt="">
+                <span>Início</span>
+            </a>
+
+            <a href="alunos.html" class="menu-link">
+                <img src="imagens/alunos.png" alt="">
+                <span>Alunos</span>
+            </a>
+
+            <a href="planos.html" class="menu-link">
+                <img src="imagens/planos.png" alt="">
+                <span>Planos</span>
+            </a>
+
+            <a href="pagamentos.html" class="menu-link">
+                <img src="imagens/pagamentos.png" alt="">
+                <span>Pagamentos</span>
+            </a>
+
+            <a href="relatorios.html"
+               class="menu-link ativo"
+               aria-current="page">
+                <img src="imagens/relatorios.png" alt="">
+                <span>Relatórios</span>
+            </a>
+
+        </nav>
+
+        <a href="index.html" class="botao-sair">
+            Sair
+        </a>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="pagina-relatorios">
+
+        <!-- TÍTULO -->
+        <section class="titulo-relatorios">
+
+            <p class="subtitulo-pagina">
+                RELATÓRIOS E CONSULTAS
+            </p>
+
+            <h1>Relatório / Consulta</h1>
+
+            <p>
+                Visualize as informações dos alunos, planos e pagamentos da academia.
+            </p>
+
+        </section>
+
+
+        <!-- INDICADORES GERAIS -->
+        <section class="resumo-relatorios">
+
+            <!-- TOTAL DE ALUNOS -->
+            <article class="resumo-card">
+
+                <div class="resumo-icone">
+                    <img src="imagens/alunos.png" alt="">
+                </div>
+
+                <div>
+                    <p>Total de alunos cadastrados</p>
+                    <h2 id="totalAlunos">0</h2>
+                </div>
+
+            </article>
+
+
+            <!-- TOTAL ARRECADADO -->
+            <article class="resumo-card">
+
+                <div class="resumo-icone">
+                    <img src="imagens/cadastrar-pagamentos.png" alt="">
+                </div>
+
+                <div>
+                    <p>Total arrecadado</p>
+                    <h2 id="totalArrecadado">R$ 0,00</h2>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- FILTROS DE CONSULTA -->
+        <section class="filtros-relatorios">
+
+            <!-- BUSCA POR ALUNO -->
+            <div class="campo-busca">
+
+                <label for="buscarAluno" class="sr-only">
+                    Buscar aluno
+                </label>
+
+                <input
+                    type="search"
+                    id="buscarAluno"
+                    name="buscarAluno"
+                    placeholder="Buscar aluno..."
+                >
+
+            </div>
+
+
+            <!-- FILTRO POR PLANO -->
+            <div class="filtro-campo">
+
+                <label for="filtroPlano">Plano</label>
+
+                <select id="filtroPlano" name="filtroPlano">
+                    <option value="">Todos</option>
+                </select>
+
+            </div>
+
+
+            <!-- FILTRO POR SITUAÇÃO -->
+            <div class="filtro-campo">
+
+                <label for="filtroSituacao">Situação</label>
+
+                <select id="filtroSituacao" name="filtroSituacao">
+
+                    <option value="">Todos</option>
+                    <option value="pago">Pago</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="atrasado">Atrasado</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BOTÃO ATUALIZAR -->
+            <button type="button"
+                    class="botao-atualizar"
+                    id="btnAtualizar">
+
+                Atualizar
+
+            </button>
+
+        </section>
+
+
+        <!-- TABELA DE RELATÓRIOS -->
+        <section class="tabela-container">
+
+            <div class="tabela-responsiva">
+
+                <table class="tabela-relatorios">
+
+                    <!-- CABEÇALHO DA TABELA -->
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Plano</th>
+                            <th>Mensalidade</th>
+                            <th>Situação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+
+                    <!--
+                        O JavaScript preencherá esta área
+                        com os alunos e seus dados cadastrados.
+                    -->
+                    <tbody id="listaRelatorios">
+                    </tbody>
+
+                </table>
+
+
+                <!-- MENSAGEM PARA A TABELA VAZIA -->
+                <p id="mensagemVazia" class="mensagem-vazia">
+                    Nenhum aluno cadastrado até o momento.
+                </p>
+
+            </div>
+
+
+            <!-- RODAPÉ DA TABELA -->
+            <div class="paginacao-relatorios">
+
+                <p id="contadorRelatorios">
+                    Mostrando 0 alunos
+                </p>
+
+                <div class="botoes-paginacao"
+                     aria-label="Paginação">
+
+                    <button type="button"
+                            disabled
+                            aria-label="Página anterior">
+                        &lsaquo;
+                    </button>
+
+                    <button type="button"
+                            class="pagina-ativa"
+                            aria-current="page"
+                            disabled>
+                        1
+                    </button>
+
+                    <button type="button"
+                            disabled
+                            aria-label="Próxima página">
+                        &rsaquo;
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ DO SITE -->
+    <footer class="rodape">
+
+        <a href="index.html" class="rodape-logo">
+            <img src="imagens/logo.png" alt="GymControl">
+        </a>
+
+        <p>Mais organização para o seu negócio.</p>
+
+        <div class="rodape-slogan">
+            DISCIPLINA &bull; FOCO &bull; RESULTADOS
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

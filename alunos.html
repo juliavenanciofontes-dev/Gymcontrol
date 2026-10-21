@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GymControl | Cadastro de Alunos</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo">
+            <img src="imagens/logo.png"
+                 alt="GymControl - Sistema de gerenciamento de academia">
+        </a>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="menu">
+
+            <a href="index.html" class="menu-link">
+                <img src="imagens/inicio.png" alt="">
+                <span>Início</span>
+            </a>
+
+            <a href="alunos.html" class="menu-link ativo"
+               aria-current="page">
+                <img src="imagens/alunos.png" alt="">
+                <span>Alunos</span>
+            </a>
+
+            <a href="planos.html" class="menu-link">
+                <img src="imagens/planos.png" alt="">
+                <span>Planos</span>
+            </a>
+
+            <a href="pagamentos.html" class="menu-link">
+                <img src="imagens/pagamentos.png" alt="">
+                <span>Pagamentos</span>
+            </a>
+
+            <a href="relatorios.html" class="menu-link">
+                <img src="imagens/relatorios.png" alt="">
+                <span>Relatórios</span>
+            </a>
+
+        </nav>
+
+        <a href="index.html" class="botao-sair">
+            Sair
+        </a>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="pagina-cadastro">
+
+        <!-- LINK PARA VOLTAR -->
+        <a href="index.html" class="voltar">
+            &larr; Voltar para a página inicial
+        </a>
+
+
+        <!-- TÍTULO DA PÁGINA -->
+        <section class="titulo-pagina">
+
+            <p class="subtitulo-pagina">
+                CADASTRO DE
+            </p>
+
+            <h1>Alunos</h1>
+
+            <p>
+                Preencha os dados do aluno para realizar o cadastro no sistema.
+            </p>
+
+        </section>
+
+
+        <!-- FORMULÁRIO DE CADASTRO -->
+        <section class="formulario-container">
+
+            <form class="formulario" action="#" method="post">
+
+                <!-- NOME COMPLETO -->
+                <div class="campo">
+
+                    <label for="nome">
+                        Nome completo <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="inpNomeAluno"
+                        placeholder="Digite o nome completo do aluno"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CPF -->
+                <div class="campo">
+
+                    <label for="cpf">
+                        CPF <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="inpCpf"
+                        name="cpf"
+                        placeholder="000.000.000-00"
+                        maxlength="14"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TELEFONE -->
+                <div class="campo">
+
+                    <label for="telefone">
+                        Telefone <span>*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="inpNumeroTelefone"
+                        name="telefone"
+                        placeholder="(31) 99999-9999"
+                        autocomplete="tel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DATA DE NASCIMENTO -->
+                <div class="campo">
+
+                    <label for="dataNascimento">
+                        Data de nascimento <span>*</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="inpDataNascimento"
+                        name="dataNascimento"
+                        autocomplete="bday"
+                        required
+                    >
+
+                </div>
+
+
+                
+                <!-- PLANO ESCOLHIDO -->
+                <div class="campo campo-completo">
+
+                    <label for="plano">
+                        Plano escolhido <span>*</span>
+                    </label>
+
+                    <select id="plano" name="plano" required>
+                        <option value="" selected disabled> Selecione o plano</option>
+                        <option value="Anual">Anual</option>
+                        <option value="Semestral">Semestral</option>
+                        <option value="Trimestral">Trimestral</option>
+                        <option value="Mensal">Mensal</option>
+                    </select>
+                </div>
+
+
+
+                <!-- BOTÃO CADASTRAR -->
+                <div class="acoes-formulario">
+
+                    <button class="botao-cadastrar" onclick="cadastrarAluno()">
+
+                        <span class="icone-botao" aria-hidden="true">
+                            <img src="imagens/cadastrar-aluno.png" alt="">
+                        </span>
+
+                        Cadastrar
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+
+        <a href="index.html" class="rodape-logo">
+            <img src="imagens/logo.png" alt="GymControl">
+        </a>
+
+        <p>Mais organização para o seu negócio.</p>
+
+        <div class="rodape-slogan">
+            DISCIPLINA &bull; FOCO &bull; RESULTADOS
+        </div>
+
+    </footer>
+    
+    <script src="controlador.js"></script>
+    <script src="modelo.js"></script>
+</body>
+</html>

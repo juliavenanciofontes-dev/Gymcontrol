@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GymControl | Cadastro de Planos</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo">
+            <img src="imagens/logo.png"
+                 alt="GymControl - Sistema de gerenciamento de academia">
+        </a>
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <nav class="menu">
+
+            <a href="index.html" class="menu-link">
+                <img src="imagens/inicio.png" alt="">
+                <span>Início</span>
+            </a>
+
+            <a href="alunos.html" class="menu-link">
+                <img src="imagens/alunos.png" alt="">
+                <span>Alunos</span>
+            </a>
+
+            <a href="planos.html" class="menu-link ativo" aria-current="page">
+                <img src="imagens/planos.png" alt="">
+                <span>Planos</span>
+            </a>
+
+            <a href="pagamentos.html" class="menu-link">
+                <img src="imagens/pagamentos.png" alt="">
+                <span>Pagamentos</span>
+            </a>
+
+            <a href="relatorios.html" class="menu-link">
+                <img src="imagens/relatorios.png" alt="">
+                <span>Relatórios</span>
+            </a>
+
+        </nav>
+
+        <a href="index.html" class="botao-sair">
+            Sair
+        </a>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="pagina-cadastro">
+
+        <a href="index.html" class="voltar">
+            &larr; Voltar para a página inicial
+        </a>
+
+        <div class="titulo-pagina">
+
+            <p class="subtitulo-pagina">GERENCIAMENTO</p>
+
+            <h1>Planos</h1>
+
+            <p>
+                Cadastre e gerencie os planos de mensalidade
+                oferecidos pela sua academia.
+            </p>
+
+        </div>
+
+
+        <!-- FORMULÁRIO DE PLANOS -->
+        <section class="formulario-container">
+
+            <form class="formulario" action="#" method="post">
+
+                <div class="campo">
+                    <label for="nomePlano">Nome do plano <span>*</span></label>
+
+                    <input
+                        type="text"
+                        id="nomePlano"
+                        name="nomePlano"
+                        placeholder="Ex.: Plano Mensal"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo">
+                    <label for="valor">Valor do plano (R$) <span>*</span></label>
+
+                    <input
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        placeholder="Ex.: 100.00"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+
+                <div class="campo">
+                    <label for="duracao">Duração do plano <span>*</span></label>
+
+                    <select id="duracao" name="duracao" required>
+
+                        <option value="">Selecione a duração</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="trimestral">Trimestral</option>
+                        <option value="semestral">Semestral</option>
+                        <option value="anual">Anual</option>
+
+                    </select>
+                </div>
+
+
+                <div class="campo">
+                    <label for="situacao">Situação do plano <span>*</span></label>
+
+                    <select id="situacao" name="situacao" required>
+
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+
+                    </select>
+                </div>
+
+
+                <div class="campo campo-completo">
+                    <label for="descricao">Descrição do plano</label>
+
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        rows="4"
+                        placeholder="Descreva os benefícios e as condições do plano."
+                    ></textarea>
+                </div>
+
+
+                <div class="acoes-formulario">
+
+                    <button type="reset" class="botao-limpar">
+                        Limpar
+                    </button>
+
+                    <button type="submit" class="botao-cadastrar">
+                        Cadastrar plano
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+
+        <a href="index.html" class="rodape-logo">
+            <img src="imagens/logo.png" alt="GymControl">
+        </a>
+
+        <p>Mais organização para o seu negócio.</p>
+
+        <div class="rodape-slogan">
+            DISCIPLINA &bull; FOCO &bull; RESULTADOS
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
