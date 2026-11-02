@@ -3,11 +3,13 @@ class Aluno{
     #cpf;
     #numeroTelefone;
     #dataNascimento;
-    constructor(nomeAluno, cpf, numeroTelefone, dataNascimento){
+    #plano
+    constructor(nomeAluno, cpf, numeroTelefone, dataNascimento, plano){
         this.#nomeAluno = nomeAluno;
         this.#cpf = cpf;
         this.#numeroTelefone = numeroTelefone
         this.#dataNascimento = dataNascimento;
+        this.#plano = plano;
     }
 
     getNomeAluno(){
@@ -37,21 +39,43 @@ class Aluno{
     setDataNascimento(dataNascimento){
         this.#dataNascimento = dataNascimento;
     }
+
+    getPlano(){
+        return this.#plano
+    }
+
+    setPlano(plano){
+        this.#plano = plano
+    }
 }
 
 class Pagamento{
+    #cpfAlunoPagamento;
     #nomeAlunoPagamento;
     #dataPagamento;
     #valorPagamento;
-    constructor(nomeAlunoPagamento, dataPagamento, valorPagamento){
+    #formaPagamento;
+
+    constructor(cpfAlunoPagamento,nomeAlunoPagamento, dataPagamento, valorPagamento, formaPagamento){
+        this.#cpfAlunoPagamento = cpfAlunoPagamento;
         this.#nomeAlunoPagamento = nomeAlunoPagamento;
         this.#dataPagamento = dataPagamento;
         this.#valorPagamento = valorPagamento;
+        this.#formaPagamento = formaPagamento
+    }
+
+    getCpfAlunoPagamento(){
+        return this.#cpfAlunoPagamento
+    }
+
+    setCpfAlunoPagamento(cpfAlunoPagamento){
+        this.#cpfAlunoPagamento = cpfAlunoPagamento
     }
 
     getNomeAlunoPagamento(){
         return this.#nomeAlunoPagamento
     }
+
     setNomeAlunoPagamento(nomeAlunoPagamento){
         this.#nomeAlunoPagamento = nomeAlunoPagamento
     }
@@ -59,6 +83,7 @@ class Pagamento{
     getDataPagamento(){
         return this.#dataPagamento
     }
+
     setDataPagamento(dataPagamento){
         this.#dataPagamento = dataPagamento;
     }
@@ -66,39 +91,20 @@ class Pagamento{
     getValorPagamento(){
         return this.#valorPagamento;
     }
+
     setValorPagamento(valorPagamento){
         this.#valorPagamento = valorPagamento;
     }
+
+    getFormaPagamento(){
+        return this.#formaPagamento
+    }
+
+    setFormaPagamento(formaPagamento){
+        this.#formaPagamento = formaPagamento
+    }
 }
 
-class Plano{
-    #nomePlano;
-    #duracaoPlano;
-    #valorPlano;
-    constructor(nomePlano, duracaoPlano, valorPlano){
-        this.#nomePlano = nomePlano;
-        this.#duracaoPlano = duracaoPlano;
-        this.#valorPlano = valorPlano
-    }
-    getNomePlano(){
-        return this.#nomePlano;
-    }
-    setNomePlano(nomePlano){
-        this.#nomePlano = nomePlano;
-    }
-    getDuracaoPlano(){
-        return this.#duracaoPlano;
-    }
-    setDuracaoPlano(duracaoPlano){
-        this.#duracaoPlano = duracaoPlano;
-    }
-    getValorPlano(){
-        return this.#valorPlano;
-    }
-    setValorPlano(valorPlano){
-        this.#valorPlano = valorPlano;
-    }
-}
 
 class Relatorio{
     #alunoRelatorio

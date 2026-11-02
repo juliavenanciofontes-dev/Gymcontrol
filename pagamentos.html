@@ -102,7 +102,7 @@
                         Aluno <span class="obrigatorio">*</span>
                     </label>
 
-                    <select id="aluno" name="aluno" required>
+                    <select id="inpAluno" name="aluno" required>
 
                         <option value="" selected disabled>
                             Selecione o aluno
@@ -125,7 +125,7 @@
 
                     <input
                         type="number"
-                        id="valor"
+                        id="inpValor"
                         name="valor"
                         placeholder="R$ 0,00"
                         min="0.01"
@@ -149,7 +149,7 @@
 
                     <input
                         type="date"
-                        id="dataPagamento"
+                        id="inpDataPagamento"
                         name="dataPagamento"
                         required
                     >
@@ -169,7 +169,7 @@
                     </label>
 
                     <select
-                        id="formaPagamento"
+                        id="inpFormaPagamento"
                         name="formaPagamento"
                         required
                     >
@@ -194,7 +194,7 @@
                 <!-- BOTÃO REGISTRAR PAGAMENTO -->
                 <div class="acoes-formulario">
 
-                    <button class="botao-cadastrar" onclick="cadastrarPagamento()">
+                    <button type="button" class="botao-cadastrar" onclick="cadastrarPagamento()">
 
                         <span class="icone-botao" aria-hidden="true">
                             <img src="imagens/cadastrar-pagamentos.png" alt="">
@@ -228,6 +228,9 @@
 
     </footer>
 
+    <script src="Modelo.js"></script>
+    <script src="controlador.js"></script>
+    <script>carregarAlunos()</script>
 </body>
 
 </html>

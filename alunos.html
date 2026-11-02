@@ -175,7 +175,7 @@
                         Plano escolhido <span>*</span>
                     </label>
 
-                    <select id="plano" name="plano" required>
+                    <select id="inpPlano" name="plano" required>
                         <option value="" selected disabled> Selecione o plano</option>
                         <option value="Anual">Anual</option>
                         <option value="Semestral">Semestral</option>
@@ -189,7 +189,7 @@
                 <!-- BOTÃO CADASTRAR -->
                 <div class="acoes-formulario">
 
-                    <button class="botao-cadastrar" onclick="cadastrarAluno()">
+                    <button type="button" class="botao-cadastrar" onclick="cadastrarAluno()">
 
                         <span class="icone-botao" aria-hidden="true">
                             <img src="imagens/cadastrar-aluno.png" alt="">
@@ -223,7 +223,8 @@
 
     </footer>
     
+    <script src="Modelo.js"></script>
     <script src="controlador.js"></script>
-    <script src="modelo.js"></script>
+    
 </body>
 </html>
