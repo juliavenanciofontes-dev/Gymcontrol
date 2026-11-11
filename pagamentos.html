@@ -102,7 +102,7 @@
                         Aluno <span class="obrigatorio">*</span>
                     </label>
 
-                    <select id="inpAlunoPagamento" name="aluno" required>
+                    <select id="inpAlunoPagamento" name="aluno" required onchange="preencherValorPagamento()">
 
                         <option value="" selected disabled>
                             Selecione o aluno
@@ -127,10 +127,8 @@
                         type="number"
                         id="inpValor"
                         name="valor"
-                        placeholder="R$ 0,00"
-                        min="0.01"
-                        step="0.01"
                         required
+                        readonly
                     >
 
                 </div>

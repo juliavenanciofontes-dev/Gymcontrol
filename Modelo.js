@@ -61,7 +61,7 @@ class Pagamento{
         this.#nomeAlunoPagamento = nomeAlunoPagamento;
         this.#dataPagamento = dataPagamento;
         this.#valorPagamento = valorPagamento;
-        this.#formaPagamento = formaPagamento
+        this.#formaPagamento = formaPagamento;
     }
 
     getCpfAlunoPagamento(){
