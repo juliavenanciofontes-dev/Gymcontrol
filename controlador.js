@@ -232,3 +232,144 @@ function preencherValorPagamento() {
 }
 
 let bancoDeRelatorios = JSON.parse(localStorage.getItem("relatorios")) || [];
+
+function carregarRelatorios(nomeBusca = "") {
+
+    let listaRelatorios = document.getElementById("listaRelatorios");
+    let mensagemVazia = document.getElementById("mensagemVazia");
+
+    listaRelatorios.innerHTML = "";
+    let totalArrecadado = 0;
+    let hoje = new Date();
+
+    let mesAtual = hoje.getMonth() + 1;
+    let anoAtual = hoje.getFullYear();
+
+    for (let i = 0; i < bancoDePagamentos.length; i++) {
+
+        let partesData = bancoDePagamentos[i].dataPagamento.split("-");
+
+        let anoPagamento = Number(partesData[0]);
+        let mesPagamento = Number(partesData[1]);
+
+        if (mesPagamento == mesAtual && anoPagamento == anoAtual) {
+            totalArrecadado += Number(bancoDePagamentos[i].valorPagamento);
+        }
+    }
+
+    document.getElementById("totalArrecadado").textContent =
+    totalArrecadado.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+
+    for (let i = 0; i < bancoDeAlunos.length; i++) {
+
+        let aluno = bancoDeAlunos[i];
+
+        if (!aluno.nomeAluno.toLowerCase().includes(nomeBusca)) {
+            continue;
+        }
+
+        let ultimoPagamento = null;
+
+        // Procurar o pagamento mais recente do aluno
+        for (let j = 0; j < bancoDePagamentos.length; j++) {
+
+            if (bancoDePagamentos[j].cpfAlunoPagamento == aluno.cpfAluno) {
+
+                if (ultimoPagamento == null || bancoDePagamentos[j].dataPagamento > ultimoPagamento.dataPagamento) {
+                    ultimoPagamento = bancoDePagamentos[j];
+                }
+            }
+        }
+
+        // Definir a situação do aluno
+        let situacao = "Pendente";
+
+        if (ultimoPagamento != null) {
+
+            let vencimento = calcularVencimento(
+                ultimoPagamento.dataPagamento,
+                aluno.planoAluno
+            );
+
+            let hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            if (hoje < vencimento) {
+                situacao = "Pago";
+            } else {
+                situacao = "Atrasado";
+            }
+        }
+
+        // Criar uma linha na tabela
+        let linha = document.createElement("tr");
+
+        let colunaNome = document.createElement("td");
+        colunaNome.textContent = aluno.nomeAluno;
+
+        let colunaPlano = document.createElement("td");
+        colunaPlano.textContent = aluno.planoAluno;
+
+        let colunaMensalidade = document.createElement("td");
+        colunaMensalidade.textContent = valoresPlanos[aluno.planoAluno].toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        let colunaSituacao = document.createElement("td");
+        colunaSituacao.textContent = situacao;
+
+        let colunaAcoes = document.createElement("td");
+
+        // Adicionar as colunas à linha
+        linha.appendChild(colunaNome);
+        linha.appendChild(colunaPlano);
+        linha.appendChild(colunaMensalidade);
+        linha.appendChild(colunaSituacao);
+        linha.appendChild(colunaAcoes);
+
+        // Adicionar a linha à tabela
+        listaRelatorios.appendChild(linha);
+    }
+
+    // Atualizar a quantidade de alunos
+    document.getElementById("totalAlunos").textContent = bancoDeAlunos.length;
+
+    // Mostrar ou esconder a mensagem de tabela vazia
+    if (bancoDeAlunos.length == 0) {
+        mensagemVazia.style.display = "block";
+    } else {
+        mensagemVazia.style.display = "none";
+    }
+
+    document.getElementById("contadorRelatorios").textContent =
+        "Mostrando " + bancoDeAlunos.length + " alunos";
+}
+
+let botaoAtualizar = document.getElementById("btnAtualizar");
+
+if (botaoAtualizar) {
+    botaoAtualizar.addEventListener("click", function () {
+
+        bancoDeAlunos = JSON.parse(localStorage.getItem("alunos")) || [];
+        bancoDePagamentos = JSON.parse(localStorage.getItem("pagamentos")) || [];
+
+        carregarRelatorios();
+    });
+}
+
+function buscarRelatorio() {
+
+    let nomeBusca = document.getElementById("buscarAluno").value.toLowerCase();
+
+    carregarRelatorios(nomeBusca);
+}
+
+let campoBusca = document.getElementById("buscarAluno");
+
+if (campoBusca) {
+    campoBusca.addEventListener("input", buscarRelatorio);
+}
