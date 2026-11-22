@@ -139,7 +139,11 @@
                 <label for="filtroPlano">Plano</label>
 
                 <select id="filtroPlano" name="filtroPlano">
-                    <option value="">Todos</option>
+                    <option value="todos">Todos</option>
+                    <option value="Anual">Anual</option>
+                    <option value="Semestral">Semestral</option>
+                    <option value="Trimestral">Trimestral</option>
+                    <option value="Mensal">Mensal</option>
                 </select>
 
             </div>
@@ -152,7 +156,7 @@
 
                 <select id="filtroSituacao" name="filtroSituacao">
 
-                    <option value="">Todos</option>
+                    <option value="todos">Todos</option>
                     <option value="pago">Pago</option>
                     <option value="pendente">Pendente</option>
                     <option value="atrasado">Atrasado</option>
@@ -201,6 +205,53 @@
                     </tbody>
 
                 </table>
+
+
+            <!-- JANELA DE EDIÇÃO DO ALUNO -->
+            <div id="modalEdicao" class="modal-edicao">
+
+                <div class="conteudo-modal">
+
+                    <h2>Editar aluno</h2>
+
+                    <form id="formEdicao">
+
+                        <label for="editNomeAluno">Nome completo</label>
+                        <input type="text" id="editNomeAluno" required>
+
+                        <label for="editCpf">CPF</label>
+                        <input type="text" id="editCpf" required>
+
+                        <label for="editTelefone">Telefone</label>
+                        <input type="text" id="editTelefone" required>
+
+                        <label for="editDataNascimento">Data de nascimento</label>
+                        <input type="date" id="editDataNascimento" required>
+
+                        <label for="editPlano">Plano</label>
+                        <select id="editPlano" required>
+                            <option value="Anual">Anual</option>
+                            <option value="Semestral">Semestral</option>
+                            <option value="Trimestral">Trimestral</option>
+                            <option value="Mensal">Mensal</option>
+                        </select>
+
+                        <div class="botoes-modal">
+                            <button type="button" id="btnCancelarEdicao">
+                                Cancelar
+                            </button>
+
+                            <button type="submit">
+                                Salvar alterações
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
 
 
                 <!-- MENSAGEM PARA A TABELA VAZIA -->
