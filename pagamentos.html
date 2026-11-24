@@ -107,6 +107,36 @@
 
                 </div>
 
+                <div class="campo">
+
+                    <label for="inpCpfPagamento">
+                        CPF
+                    </label>
+
+                    <input
+                        type="text"
+                        id="inpCpfPagamento"
+                        readonly
+                        placeholder="CPF do aluno"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="inpPlanoPagamento">
+                        Plano
+                    </label>
+
+                    <input
+                        type="text"
+                        id="inpPlanoPagamento"
+                        readonly
+                        placeholder="Plano contratado"
+                    >
+
+                </div>
+
 
                 <!-- VALOR -->
                 <div class="campo">
@@ -129,13 +159,13 @@
                 </div>
 
 
-                <!-- DATA DO PAGAMENTO -->
                 <div class="campo">
 
-                    <label for="dataPagamento">
+                    <label for="inpDataPagamento">
                         <span class="icone-campo">
                             <img src="imagens/calendario.png" alt="">
                         </span>
+
                         Data do pagamento
                         <span class="obrigatorio">*</span>
                     </label>
@@ -145,6 +175,7 @@
                         id="inpDataPagamento"
                         name="dataPagamento"
                         required
+                        readonly
                     >
 
                 </div>
@@ -223,7 +254,7 @@
 
     <script src="Modelo.js"></script>
     <script src="controlador.js"></script>
-    <script>carregarAlunos()</script>
+    <script> carregarAlunos(); atualizarDataPagamento();</script>
 </body>
 
 </html>

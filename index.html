@@ -81,38 +81,32 @@
             </div>
 
 
-            <!-- PAINEL DE INDICADORES -->
-            <div class="painel-indicadores">
+           <div class="painel-indicadores">
 
                 <div class="circulo-central">
                     <span class="icone-academia">
-                        <img src="imagens/academia.png"
-                             alt="">
+                        <img src="imagens/academia.png" alt="">
                     </span>
                 </div>
 
                 <div class="indicador indicador-alunos">
                     <p>ALUNOS CADASTRADOS</p>
-                    <h3>124</h3>
-                    <span>&uarr; 12%</span>
+                    <h3 id="indicadorAlunos">0</h3>
                 </div>
 
                 <div class="indicador indicador-pagamentos">
-                    <p>PAGAMENTOS DO MÊS</p>
-                    <h3>R$ 8.450,00</h3>
-                    <span>&uarr; 8%</span>
+                    <p>ARRECADADO NO MÊS</p>
+                    <h3 id="indicadorArrecadado">R$ 0,00</h3>
                 </div>
 
                 <div class="indicador indicador-planos">
-                    <p>TOTAL DE PLANOS</p>
-                    <h3>5</h3>
-                    <span>&uarr; 0%</span>
+                    <p>ALUNOS COM PAGAMENTOS ATRASADOS</p>
+                    <h3 id="indicadorAtrasados">0</h3>
                 </div>
 
                 <div class="indicador indicador-ativos">
                     <p>ALUNOS ATIVOS</p>
-                    <h3>118</h3>
-                    <span>&uarr; 10%</span>
+                    <h3 id="indicadorAtivos">0</h3>
                 </div>
 
             </div>
@@ -199,7 +193,9 @@
         </div>
 
     </footer>
-
+    
+    <script src="Modelo.js"></script>
+    <script src="controlador.js"></script>
 </body>
 
 </html>

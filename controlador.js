@@ -1,3 +1,7 @@
+// =====================================================
+// 1. DADOS INICIAIS E VALORES DOS PLANOS
+// =====================================================
+// Recupera os alunos salvos no navegador e prepara as variáveis utilizadas na edição.
  let bancoDeAlunos = JSON.parse(localStorage.getItem("alunos")) || []
  let cpfOriginalEdicao = "";
 
@@ -8,6 +12,7 @@
     "Anual": 840
 };
 
+// Cadastra um novo aluno, valida os campos e salva seus dados no localStorage.
     function cadastrarAluno(){
 
     let nomeAluno = document.getElementById("inpNomeAluno").value.trim()
@@ -53,82 +58,101 @@
 }
 
 
+// Carrega os alunos cadastrados no campo de seleção da tela de pagamentos.
 function carregarAlunos(){
     let campoAluno = document.getElementById("inpAlunoPagamento")
-    
+
     for (let i = 0; i < bancoDeAlunos.length; i++) {
         let opcao = document.createElement("option")
 
         opcao.value = bancoDeAlunos[i].cpfAluno
         opcao.textContent = bancoDeAlunos[i].nomeAluno
-        
+
         campoAluno.appendChild(opcao)
     }
 }
 
+// =====================================================
+// 2. CADASTRO E CONTROLE DE PAGAMENTOS
+// =====================================================
+// Recupera os pagamentos já registrados no navegador.
 let bancoDePagamentos = JSON.parse(localStorage.getItem("pagamentos")) || [];
+// Registra o pagamento de um aluno após validar os dados e verificar se ele pode pagar novamente.
 function cadastrarPagamento(){
-        let cpfAlunoPagamento = document.getElementById("inpAlunoPagamento").value.trim()
-        let valorPagamento = Number(document.getElementById("inpValor").value.trim())
-        let dataPagamento = document.getElementById("inpDataPagamento").value.trim()
-        let formaPagamento = document.getElementById("inpFormaPagamento").value
 
-        let nomeAlunoPagamento = "";
+    atualizarDataPagamento();
 
-        for (let i = 0; i < bancoDeAlunos.length; i++) {
+    let cpfAlunoPagamento = document.getElementById("inpAlunoPagamento").value.trim();
+    let valorPagamento = Number(document.getElementById("inpValor").value.trim());
+    let dataPagamento = document.getElementById("inpDataPagamento").value;
+    let formaPagamento = document.getElementById("inpFormaPagamento").value;
 
-            if (bancoDeAlunos[i].cpfAluno == cpfAlunoPagamento) {
+    let nomeAlunoPagamento = "";
+    let planoAluno = "";
+
+    for (let i = 0; i < bancoDeAlunos.length; i++) {
+
+        if (bancoDeAlunos[i].cpfAluno == cpfAlunoPagamento) {
+
             nomeAlunoPagamento = bancoDeAlunos[i].nomeAluno;
+            planoAluno = bancoDeAlunos[i].planoAluno;
+
             break;
-            }
-
         }
-
-        if (!cpfAlunoPagamento || !valorPagamento || !dataPagamento || !formaPagamento) {
-            alert("Preencha todos os campos")
-            return;
-        }
-
-        if (!nomeAlunoPagamento) {
-            alert("Aluno não encontrado!")
-            return;
-        }
-
-        if (verificarPagamento(cpfAlunoPagamento, dataPagamento)) {
-            alert("Este aluno já possui um pagamento válido para esse período!")
-            return;
-        }
-
-        const pagamento = new Pagamento(
-            cpfAlunoPagamento,
-            nomeAlunoPagamento,
-            dataPagamento,
-            valorPagamento,
-            formaPagamento
-        );
-
-        let novoPagamento = {
-            cpfAlunoPagamento: pagamento.getCpfAlunoPagamento(),
-            nomeAlunoPagamento: pagamento.getNomeAlunoPagamento(),
-            dataPagamento: pagamento.getDataPagamento(),
-            valorPagamento: pagamento.getValorPagamento(),
-            formaPagamento: pagamento.getFormaPagamento()
-        }
-
-        bancoDePagamentos.push(novoPagamento)
-
-        localStorage.setItem("pagamentos", JSON.stringify(bancoDePagamentos))
-
-        document.getElementById("inpAlunoPagamento").value = "";
-        document.getElementById("inpValor").value = "";
-        document.getElementById("inpDataPagamento").value = "";
-        document.getElementById("inpFormaPagamento").value = "";
-
-        alert("Pagamento Registrado com Sucesso")
     }
 
+    if (!cpfAlunoPagamento || !valorPagamento || !dataPagamento || !formaPagamento) {
+        alert("Preencha todos os campos");
+        return;
+    }
+
+    if (!nomeAlunoPagamento) {
+        alert("Aluno não encontrado!");
+        return;
+    }
+
+    if (verificarPagamento(cpfAlunoPagamento, dataPagamento)) {
+        alert("Este aluno já possui um pagamento válido para esse período!");
+        return;
+    }
+
+    const pagamento = new Pagamento(
+        cpfAlunoPagamento,
+        nomeAlunoPagamento,
+        dataPagamento,
+        valorPagamento,
+        formaPagamento
+    );
+
+    let novoPagamento = {
+
+        cpfAlunoPagamento: pagamento.getCpfAlunoPagamento(),
+        nomeAlunoPagamento: pagamento.getNomeAlunoPagamento(),
+        planoPagamento: planoAluno,
+        dataPagamento: pagamento.getDataPagamento(),
+        valorPagamento: pagamento.getValorPagamento(),
+        formaPagamento: pagamento.getFormaPagamento()
+
+    };
+
+    bancoDePagamentos.push(novoPagamento);
+
+    localStorage.setItem("pagamentos", JSON.stringify(bancoDePagamentos));
+
+    document.getElementById("inpAlunoPagamento").value = "";
+    document.getElementById("inpCpfPagamento").value = "";
+    document.getElementById("inpPlanoPagamento").value = "";
+    document.getElementById("inpValor").value = "";
+    document.getElementById("inpFormaPagamento").value = "";
+
+    atualizarDataPagamento();
+
+    alert("Pagamento Registrado com Sucesso");
+}
+
+// Calcula a data de vencimento com base na data do pagamento e na duração do plano.
 function calcularVencimento(dataPagamento, plano){
-    
+
     let meses = 0
 
     if (plano == "Mensal") {
@@ -161,63 +185,113 @@ function calcularVencimento(dataPagamento, plano){
     return dataVencimento;
 }
 
-function verificarPagamento(cpfAluno, novaDataPagamento) {
+// Localiza o pagamento mais recente de um aluno usando seu CPF.
+function obterUltimoPagamento(cpfAluno) {
 
-    let planoAluno = "";
-
-   
-    for (let i = 0; i < bancoDeAlunos.length; i++) {
-
-        if (bancoDeAlunos[i].cpfAluno == cpfAluno) {
-            planoAluno = bancoDeAlunos[i].planoAluno;
-            break;
-        }
-    }
-
-    
-    let ultimoPagamento = "";
+    let ultimoPagamento = null;
 
     for (let i = 0; i < bancoDePagamentos.length; i++) {
 
         if (bancoDePagamentos[i].cpfAlunoPagamento == cpfAluno) {
 
-            if (bancoDePagamentos[i].dataPagamento > ultimoPagamento) {
-                ultimoPagamento = bancoDePagamentos[i].dataPagamento;
+            if (
+                ultimoPagamento == null ||
+                bancoDePagamentos[i].dataPagamento > ultimoPagamento.dataPagamento
+            ) {
+                ultimoPagamento = bancoDePagamentos[i];
             }
         }
     }
 
+    return ultimoPagamento;
+}
 
-    if (ultimoPagamento == "") {
+// Verifica se o último plano pago pelo aluno ainda está dentro do período de validade.
+function planoEstaAtivo(cpfAluno) {
+
+    let ultimoPagamento = obterUltimoPagamento(cpfAluno);
+
+    if (ultimoPagamento == null) {
         return false;
     }
 
+    let planoAluno = ultimoPagamento.planoPagamento;
 
-    let vencimento = calcularVencimento(ultimoPagamento, planoAluno);
+    // Compatibilidade com pagamentos antigos
+    if (!planoAluno) {
 
+        for (let i = 0; i < bancoDeAlunos.length; i++) {
+
+            if (bancoDeAlunos[i].cpfAluno == cpfAluno) {
+                planoAluno = bancoDeAlunos[i].planoAluno;
+                break;
+            }
+        }
+    }
+
+    let vencimento = calcularVencimento(
+        ultimoPagamento.dataPagamento,
+        planoAluno
+    );
+
+    let hoje = new Date();
+
+    hoje.setHours(0, 0, 0, 0);
+
+    return hoje < vencimento;
+}
+
+// Impede um novo pagamento quando o aluno ainda possui um período pago válido.
+function verificarPagamento(cpfAluno, novaDataPagamento) {
+
+    let ultimoPagamento = obterUltimoPagamento(cpfAluno);
+
+    if (ultimoPagamento == null) {
+        return false;
+    }
+
+    let planoPago = ultimoPagamento.planoPagamento;
+
+    // Compatibilidade com pagamentos antigos
+    if (!planoPago) {
+
+        for (let i = 0; i < bancoDeAlunos.length; i++) {
+
+            if (bancoDeAlunos[i].cpfAluno == cpfAluno) {
+                planoPago = bancoDeAlunos[i].planoAluno;
+                break;
+            }
+        }
+    }
+
+    let vencimento = calcularVencimento(
+        ultimoPagamento.dataPagamento,
+        planoPago
+    );
 
     let partesData = novaDataPagamento.split("-");
+
     let novaData = new Date(
         Number(partesData[0]),
         Number(partesData[1]) - 1,
         Number(partesData[2])
     );
 
-
-    if (novaData < vencimento) {
-        return true;
-    } else {
-        return false;
-    }
+    return novaData < vencimento;
 }
 
+// Preenche automaticamente CPF, plano e valor quando um aluno é selecionado.
 function preencherValorPagamento() {
 
     let cpfAluno = document.getElementById("inpAlunoPagamento").value;
 
     let campoValor = document.getElementById("inpValor");
+    let campoCpf = document.getElementById("inpCpfPagamento");
+    let campoPlano = document.getElementById("inpPlanoPagamento");
 
     campoValor.value = "";
+    campoCpf.value = "";
+    campoPlano.value = "";
 
     for (let i = 0; i < bancoDeAlunos.length; i++) {
 
@@ -225,6 +299,8 @@ function preencherValorPagamento() {
 
             let planoAluno = bancoDeAlunos[i].planoAluno;
 
+            campoCpf.value = bancoDeAlunos[i].cpfAluno;
+            campoPlano.value = planoAluno;
             campoValor.value = valoresPlanos[planoAluno];
 
             break;
@@ -232,8 +308,27 @@ function preencherValorPagamento() {
     }
 }
 
+// Define automaticamente a data atual no campo de data do pagamento.
+function atualizarDataPagamento() {
+
+    let hoje = new Date();
+
+    let ano = hoje.getFullYear();
+    let mes = String(hoje.getMonth() + 1).padStart(2, "0");
+    let dia = String(hoje.getDate()).padStart(2, "0");
+
+    document.getElementById("inpDataPagamento").value =
+        ano + "-" + mes + "-" + dia;
+}
+
+
+// =====================================================
+// 3. RELATÓRIOS E FILTROS
+// =====================================================
+// Recupera os dados de relatórios armazenados no navegador.
 let bancoDeRelatorios = JSON.parse(localStorage.getItem("relatorios")) || [];
 
+// Monta a tabela de relatórios, calcula a arrecadação e aplica os filtros selecionados.
 function carregarRelatorios(nomeBusca = "", planoSelecionado = "todos", situacaoSelecionada = "todos") {
 
     let listaRelatorios = document.getElementById("listaRelatorios");
@@ -303,9 +398,11 @@ function carregarRelatorios(nomeBusca = "", planoSelecionado = "todos", situacao
 
         if (ultimoPagamento != null) {
 
+            let planoPago = ultimoPagamento.planoPagamento || aluno.planoAluno;
+
             let vencimento = calcularVencimento(
                 ultimoPagamento.dataPagamento,
-                aluno.planoAluno
+                planoPago
             );
 
             if (dataAtual < vencimento) {
@@ -401,6 +498,7 @@ function carregarRelatorios(nomeBusca = "", planoSelecionado = "todos", situacao
     "Mostrando " + alunosExibidos + " alunos";
 }
 
+// Atualiza os dados dos alunos e pagamentos e recarrega os relatórios ao clicar no botão.
 let botaoAtualizar = document.getElementById("btnAtualizar");
 
 if (botaoAtualizar) {
@@ -413,6 +511,7 @@ if (botaoAtualizar) {
     });
 }
 
+// Lê os filtros da tela e solicita a atualização da tabela de relatórios.
 function buscarRelatorio() {
 
     let nomeBusca = document.getElementById("buscarAluno").value.toLowerCase();
@@ -424,6 +523,7 @@ function buscarRelatorio() {
     carregarRelatorios(nomeBusca, planoSelecionado, situacaoSelecionada);
 }
 
+// Configura os eventos dos campos de busca e dos filtros dos relatórios.
 let campoBusca = document.getElementById("buscarAluno");
 
 if (campoBusca) {
@@ -442,6 +542,7 @@ if (campoSituacao) {
     campoSituacao.addEventListener("change", buscarRelatorio);
 }
 
+// Exclui um aluno e também remove os pagamentos associados ao CPF dele.
 function excluirAluno(cpfAluno) {
 
     let confirmar = confirm("Tem certeza que deseja excluir este aluno?");
@@ -465,6 +566,7 @@ function excluirAluno(cpfAluno) {
     }
 }
 
+// Busca os dados do aluno, preenche o formulário de edição e controla a troca de plano.
 function abrirEdicao(cpfAluno) {
 
     for (let i = 0; i < bancoDeAlunos.length; i++) {
@@ -481,6 +583,10 @@ function abrirEdicao(cpfAluno) {
             document.getElementById("editDataNascimento").value = aluno.dataNascimentoAluno;
             document.getElementById("editPlano").value = aluno.planoAluno;
 
+            let campoPlano = document.getElementById("editPlano");
+
+            campoPlano.disabled = planoEstaAtivo(cpfAluno);
+
             document.getElementById("modalEdicao").style.display = "flex";
 
             break;
@@ -488,6 +594,7 @@ function abrirEdicao(cpfAluno) {
     }
 }
 
+// Configura o botão que fecha a janela de edição sem salvar alterações.
 let botaoCancelar = document.getElementById("btnCancelarEdicao");
 
 if (botaoCancelar) {
@@ -496,6 +603,7 @@ if (botaoCancelar) {
     });
 }
 
+// Configura o envio do formulário de edição, valida os dados e salva as alterações.
 let formularioEdicao = document.getElementById("formEdicao");
 
 if (formularioEdicao) {
@@ -507,6 +615,19 @@ if (formularioEdicao) {
         let telefoneNovo = document.getElementById("editTelefone").value.trim();
         let dataNascimentoNova = document.getElementById("editDataNascimento").value;
         let planoNovo = document.getElementById("editPlano").value;
+
+        // Impedir troca de plano antes do vencimento
+        if (
+            planoNovo != bancoDeAlunos.find(function(aluno) {
+                return aluno.cpfAluno == cpfOriginalEdicao;
+            }).planoAluno &&
+            planoEstaAtivo(cpfOriginalEdicao)
+        ) {
+
+            alert("Não é possível trocar o plano antes do vencimento!");
+
+            return;
+        }
 
         // Verificar se o novo CPF já pertence a outro aluno
         for (let i = 0; i < bancoDeAlunos.length; i++) {
@@ -552,3 +673,119 @@ if (formularioEdicao) {
         alert("Aluno atualizado com sucesso!");
     });
 }
+
+// =====================================================
+// 4. INDICADORES DA PÁGINA INICIAL
+// =====================================================
+
+// Atualiza os números apresentados no painel inicial.
+function atualizarIndicadoresInicio() {
+
+    // Atualizar os dados com as informações salvas no navegador
+    bancoDeAlunos = JSON.parse(localStorage.getItem("alunos")) || [];
+    bancoDePagamentos = JSON.parse(localStorage.getItem("pagamentos")) || [];
+
+    // Localizar os elementos do painel
+    let campoAlunos = document.getElementById("indicadorAlunos");
+    let campoAtivos = document.getElementById("indicadorAtivos");
+    let campoAtrasados = document.getElementById("indicadorAtrasados");
+    let campoArrecadado = document.getElementById("indicadorArrecadado");
+
+    // Verificar se os indicadores existem na página
+    if (!campoAlunos || !campoAtivos || !campoAtrasados || !campoArrecadado) {
+        return;
+    }
+
+    let totalAtivos = 0;
+    let totalAtrasados = 0;
+    let totalArrecadado = 0;
+
+    let hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    let mesAtual = hoje.getMonth() + 1;
+    let anoAtual = hoje.getFullYear();
+
+    // Calcular a arrecadação do mês atual
+    for (let i = 0; i < bancoDePagamentos.length; i++) {
+
+        let partesData = bancoDePagamentos[i].dataPagamento.split("-");
+
+        let anoPagamento = Number(partesData[0]);
+        let mesPagamento = Number(partesData[1]);
+
+        if (mesPagamento == mesAtual && anoPagamento == anoAtual) {
+
+            totalArrecadado += Number(bancoDePagamentos[i].valorPagamento);
+
+        }
+    }
+
+    // Verificar a situação de cada aluno
+    for (let i = 0; i < bancoDeAlunos.length; i++) {
+
+        let aluno = bancoDeAlunos[i];
+
+        let dataHoje =
+            hoje.getFullYear() + "-" +
+            String(hoje.getMonth() + 1).padStart(2, "0") + "-" +
+            String(hoje.getDate()).padStart(2, "0");
+
+        let ultimoPagamento = null;
+
+        // Procurar o pagamento mais recente do aluno
+        for (let j = 0; j < bancoDePagamentos.length; j++) {
+
+            if (bancoDePagamentos[j].cpfAlunoPagamento == aluno.cpfAluno) {
+
+                if (bancoDePagamentos[j].dataPagamento <= dataHoje) {
+
+                    if (
+                        ultimoPagamento == null ||
+                        bancoDePagamentos[j].dataPagamento > ultimoPagamento.dataPagamento
+                    ) {
+
+                        ultimoPagamento = bancoDePagamentos[j];
+
+                    }
+                }
+            }
+        }
+
+        // Verificar se o aluno possui um pagamento registrado
+        if (ultimoPagamento != null) {
+
+            let planoPago = ultimoPagamento.planoPagamento || aluno.planoAluno;
+
+            let vencimento = calcularVencimento(
+                ultimoPagamento.dataPagamento,
+                planoPago
+            );
+
+            if (hoje < vencimento) {
+
+                totalAtivos++;
+
+            } else {
+
+                totalAtrasados++;
+
+            }
+        }
+    }
+
+    // Mostrar os resultados no painel
+    campoAlunos.textContent = bancoDeAlunos.length;
+
+    campoAtivos.textContent = totalAtivos;
+
+    campoAtrasados.textContent = totalAtrasados;
+
+    campoArrecadado.textContent = totalArrecadado.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+// Atualizar os indicadores sempre que a página inicial for exibida.
+window.addEventListener("pageshow", atualizarIndicadoresInicio);
