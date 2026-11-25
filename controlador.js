@@ -1,6 +1,6 @@
-// =====================================================
+
 // 1. DADOS INICIAIS E VALORES DOS PLANOS
-// =====================================================
+
 // Recupera os alunos salvos no navegador e prepara as variáveis utilizadas na edição.
  let bancoDeAlunos = JSON.parse(localStorage.getItem("alunos")) || []
  let cpfOriginalEdicao = "";
@@ -11,6 +11,41 @@
     "Semestral": 480,
     "Anual": 840
 };
+
+// função para validar o cpf
+function validarCPF(cpf) {
+
+    cpf = cpf.replace(/\D/g, "");
+
+    if (cpf.length !== 11) {
+        return false;
+    }
+
+    if (/^(\d)\1{10}$/.test(cpf)) {
+        return false;
+    }
+
+    let soma = 0;
+
+    for (let i = 0; i < 9; i++) {
+        soma += Number(cpf[i]) * (10 - i);
+    }
+
+    let resto = soma % 11;
+    let primeiroDigito = resto < 2 ? 0 : 11 - resto;
+
+    soma = 0;
+
+    for (let i = 0; i < 10; i++) {
+        soma += Number(cpf[i]) * (11 - i);
+    }
+
+    resto = soma % 11;
+    let segundoDigito = resto < 2 ? 0 : 11 - resto;
+
+    return Number(cpf[9]) === primeiroDigito &&
+           Number(cpf[10]) === segundoDigito;
+}
 
 // Cadastra um novo aluno, valida os campos e salva seus dados no localStorage.
     function cadastrarAluno(){
@@ -23,6 +58,11 @@
 
     if (!nomeAluno || !cpfAluno || !numeroTelefoneAluno || !dataNascimentoAluno || !planoAluno) {
         alert("Preencha todos os campos")
+        return;
+    }
+
+    if (!validarCPF(cpfAluno)) {
+        alert("CPF inválido!");
         return;
     }
 
@@ -72,9 +112,9 @@ function carregarAlunos(){
     }
 }
 
-// =====================================================
+
 // 2. CADASTRO E CONTROLE DE PAGAMENTOS
-// =====================================================
+
 // Recupera os pagamentos já registrados no navegador.
 let bancoDePagamentos = JSON.parse(localStorage.getItem("pagamentos")) || [];
 // Registra o pagamento de um aluno após validar os dados e verificar se ele pode pagar novamente.
@@ -322,9 +362,9 @@ function atualizarDataPagamento() {
 }
 
 
-// =====================================================
+
 // 3. RELATÓRIOS E FILTROS
-// =====================================================
+
 // Recupera os dados de relatórios armazenados no navegador.
 let bancoDeRelatorios = JSON.parse(localStorage.getItem("relatorios")) || [];
 
@@ -674,9 +714,7 @@ if (formularioEdicao) {
     });
 }
 
-// =====================================================
 // 4. INDICADORES DA PÁGINA INICIAL
-// =====================================================
 
 // Atualiza os números apresentados no painel inicial.
 function atualizarIndicadoresInicio() {
